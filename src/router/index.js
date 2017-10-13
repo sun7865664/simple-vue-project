@@ -4,6 +4,7 @@ import Hello from '@/components/Hello'
 import Mint from '@/components/Mint'
 import Element from '@/components/Element'
 import Message from '@/components/Message'
+import Component from '@/vue-learning/Component'
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
       path: '/element',
       name: 'Element',
       component: Element
+    },
+    {
+      path: '/vue-learning/component',
+      name: 'Component',
+      component: Component
     }
   ]
 })
