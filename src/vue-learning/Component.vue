@@ -22,11 +22,43 @@
     </div>
     <currency-input v-model="price"></currency-input>
     <my-checkbox v-model="foo" value="some value"></my-checkbox>
+    <vue-select>
+      <vue-option v-for="item in [{n:1,v:1},{n:2,v:2},{n:3,v:3}]" :item="item"></vue-option>
+    </vue-select>
+    <div>
+      <h1>我是父组件的标题</h1>
+      <pppcomponent>
+        <p>这是一些初始内容</p>
+        <p>这是更多的初始内容</p>
+      </pppcomponent>
+    </div>
+    <app-layout>
+      <h1 slot="header">这里可能是一个页面标题</h1>
+      <p>主要内容的一个段落。</p>
+      <p>另一个主要段落。</p>
+      <p slot="footer">这里有一些联系信息</p>
+    </app-layout>
+    <div class="parent">
+      <sl-c1>
+        <template scope="props">
+          <span>hello from parent</span>
+          <span>{{ props.text }}</span>
+        </template>
+      </sl-c1>
+    </div>
   </div>
 </template>
 
 <script>
   import Vue from 'vue'
+
+  Vue.component('sl-c1', {
+    template: '<div class="child"><slot text="hello from child"></slot></div>'
+  })
+
+  Vue.component('app-layout', {
+    template: '<div class="container"><header><slot name="header"></slot></header><main><slot></slot></main><footer><slot name="footer"></slot></footer></div>'
+  })
 
   // 注册
   Vue.component('my-component', {
@@ -107,7 +139,20 @@
       // 这样就允许拿 `value` 这个 prop 做其它事了
       value: String
     },
-    template: '<div>{{value}}:<input type="checkbox" :checked="checked"></div>'
+    template: '<div><label for="my-checkbox">{{value}}:</label><input id="my-checkbox" type="checkbox" :checked="checked"></div>'
+  })
+
+  Vue.component('vue-select', {
+    template: '<select><slot>没有则显示这个</slot></select>'
+  })
+
+  Vue.component('vue-option', {
+    props: ['item'],
+    template: '<option value="item.v">{{item.n}}</option>'
+  })
+
+  Vue.component('pppcomponent', {
+    template: '<div><h2>我是子组件的标题</h2><slot>只有在没有要分发的内容时才会显示。</slot></div>'
   })
 
   var Child = {
